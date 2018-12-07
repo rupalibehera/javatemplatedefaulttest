@@ -11,6 +11,14 @@ metadata:
     description: >-
       The REST API Level 0 Mission provides a basic example of mapping business operations to a remote procedure call endpoint over HTTP using a REST framework.
 parameters:
+- name: SUFFIX_NAME
+  description: The suffix name for the template objects
+  displayName: Suffix name
+  value: ''
+- name: RELEASE_VERSION
+  description: The release version number of application
+  displayName: Release version
+  value: 2.0.0
 - name: RUNTIME_VERSION
   displayName: OpenJDK 8 image version to use
   description: Specifies which version of the OpenShift OpenJDK 8 image to use
@@ -64,7 +72,9 @@ objects:
 - apiVersion: v1
   kind: BuildConfig
   metadata:
-    name: spring-boot-rest-http
+    name: spring-boot-rest-http${SUFFIX_NAME}
+    labels:
+      version: ${RELEASE_VERSION}
   spec:
     output:
       to:
@@ -106,11 +116,12 @@ objects:
   kind: Service
   metadata:
     labels:
+      expose: "true"
       app: spring-boot-rest-http
       provider: snowdrop
-      version: "1.5.17-4-redhat"
+      version: ${RELEASE_VERSION}
       group: io.openshift.booster
-    name: spring-boot-rest-http
+    name: spring-boot-rest-http${SUFFIX_NAME}
   spec:
     ports:
     - name: http
@@ -127,9 +138,9 @@ objects:
     labels:
       app: spring-boot-rest-http
       provider: snowdrop
-      version: "1.5.17-4-redhat"
+      version: ${RELEASE_VERSION}
       group: io.openshift.booster
-    name: spring-boot-rest-http
+    name: spring-boot-rest-http${SUFFIX_NAME}
   spec:
     replicas: 1
     selector:
@@ -145,7 +156,7 @@ objects:
         labels:
           app: spring-boot-rest-http
           provider: snowdrop
-          version: "1.5.17-4-redhat"
+          version: ${RELEASE_VERSION}
           group: io.openshift.booster
       spec:
         containers:
@@ -154,7 +165,7 @@ objects:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
-          image: spring-boot-rest-http:1.5.17-4-redhat
+          image: spring-boot-rest-http:${RELEASE_VERSION}
           imagePullPolicy: IfNotPresent
           name: spring-boot
           ports:
@@ -194,12 +205,12 @@ objects:
     labels:
       app: spring-boot-rest-http
       provider: snowdrop
-      version: "1.5.17-4-redhat"
+      version: ${RELEASE_VERSION}
       group: io.openshift.booster
-    name: spring-boot-rest-http
+    name: spring-boot-rest-http${SUFFIX_NAME}
   spec:
     port:
       targetPort: 8080
     to:
       kind: Service
-      name: spring-boot-rest-http
+      name: spring-boot-rest-http${SUFFIX_NAME}
