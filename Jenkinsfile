@@ -2,7 +2,7 @@
 def utils = new io.openshift.Utils()
 
 osio {
-
+  
   config runtime: 'java', version: '1.8'
 
   ci {
@@ -15,6 +15,7 @@ osio {
     def resources = processTemplate(params: [
           release_version: "1.0.${env.BUILD_NUMBER}"
     ])
+    echo "CD build"
 
     build resources: resources
     deploy resources: resources, env: 'stage'
