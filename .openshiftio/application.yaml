@@ -57,12 +57,16 @@ objects:
 - apiVersion: v1
   kind: ImageStream
   metadata:
-    name: spring-boot-rest-http
+    name: spring-boot-rest-http${SUFFIX_NAME}
+    labels:
+      version: ${RELEASE_VERSION}
   spec: {}
 - apiVersion: v1
   kind: ImageStream
   metadata:
-    name: runtime
+    name: spring-boot-rest-http${SUFFIX_NAME}
+    labels:
+      version: ${RELEASE_VERSION}  
   spec:
     tags:
     - name: "${RUNTIME_VERSION}"
