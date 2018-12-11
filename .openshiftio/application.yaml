@@ -83,7 +83,7 @@ objects:
     output:
       to:
         kind: ImageStreamTag
-        name: spring-boot-rest-http:1.5.17-4-redhat
+        name: spring-boot-rest-http${SUFFIX_NAME}:${RELEASE_VERSION}
     postCommit: {}
     resources: {}
     source:
@@ -201,7 +201,7 @@ objects:
         - spring-boot
         from:
           kind: ImageStreamTag
-          name: spring-boot-rest-http:1.5.17-4-redhat
+          name: spring-boot-rest-http${SUFFIX_NAME}:${RELEASE_VERSION}
       type: ImageChange
 - apiVersion: v1
   kind: Route
