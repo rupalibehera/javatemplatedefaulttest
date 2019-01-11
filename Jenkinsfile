@@ -4,6 +4,7 @@ def utils = new io.openshift.Utils()
 osio {
   
   config runtime: 'java', version: '1.8'
+
   echo "ci.."
   ci {
      integrationTestCmd = "mvn verify integration-test -Dnamespace.use.current=false -Dnamespace.use.existing=${utils.usersNamespace()} -Dit.test=*IT -DfailIfNoTests=false -DenableImageStreamDetection=true -Popenshift,openshift-it"
