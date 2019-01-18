@@ -6,9 +6,10 @@ osio {
   config runtime: 'java', version: '1.8'
   echo "ci................................"
   ci {
-     integrationTestCmd = "mvn verify integration-test -Dnamespace.use.current=false -Dnamespace.use.existing=${utils.usersNamespace()} -Dit.test=*IT -DfailIfNoTests=false -DenableImageStreamDetection=true -Popenshift,openshift-it"
-     //runTest commands: integrationTestCmd
-    spawn image: config.runtime(), version: config.version(), commands: integrationTestCmd, env: ["key":"value", "key2":"value2"]
+     namespaceToRunTest = testNamespace
+     integrationTestCmd = "mvn verify integration-test -Dnamespace.use.current=false -Dnamespace.use.existing=${testNamespace} -Dit.test=*IT -DfailIfNoTests=false -DenableImageStreamDetection=true -Popenshift,openshift-it"
+     runTest commands: integrationTestCmd
+    //spawn image: config.runtime(), version: config.version(), commands: integrationTestCmd, env: ["key":"value", "key2":"value2"]
   }
 
   cd {
